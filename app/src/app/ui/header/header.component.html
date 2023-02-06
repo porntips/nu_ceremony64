@@ -1,0 +1,80 @@
+<nav
+  class="top-0 fixed z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-white shadow"
+>
+  <div
+    class="w-full px-4 mx-auto flex flex-wrap items-center justify-between"
+  >
+    <div
+      class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+    >
+      <!-- <a [routerLink]="['/']" class="text-Gray-700 text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
+        href="#pablo"
+      >
+      มหาวิทยาลัยนเรศวร
+      </a> -->
+      <a href="https://flowbite.com/" class="flex items-center">
+        <img src="../../../assets/img/logo_acad.png" class="h-10 mr-3 sm:h-11" alt="NU Logo" />
+        <span class="self-center font-semibold text-Gray-700 dark:text-white whitespace-nowrap inline-block">
+           <p class="text-md">กองบริการการศึกษา มหาวิทยาลัยนเรศวร</p>
+           <p class="text-xs">Division of Academic Affairs, Naresuan University </p>
+        </span>
+    </a>
+      <button
+        class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+        type="button"
+        (click)="setNavbarOpen()"
+      >
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+    <div
+      class="lg:flex flex-grow items-center"
+      [ngClass]="{ hidden: !navbarOpen, block: navbarOpen }"
+      id="example-navbar-warning"
+    >
+      <ul class="flex flex-col lg:flex-row list-none lg:ml-auto cursor-pointer">
+        <li class="flex items-center">
+          <a class="px-3 py-2 flex items-center text-sm uppercase font-semibold" [routerLink]="['/upload']"
+            routerLinkActive="active" #navUpload="routerLinkActive" [ngClass]="navUpload.isActive
+                                                          ? 'text-red-600 hover:text-red-700'
+                                                          : 'text-gray-700 hover:text-gray-500'
+                                                      ">
+            <i class="fa fa-cloud-upload text-lg"></i>
+            <span class="inline-block ml-2">อัพโหลดข้อมูล</span>
+          </a>
+        </li>
+        
+        <li class="flex items-center">
+          <a class="px-3 py-2 flex items-center text-sm uppercase font-semibold" [routerLink]="['/running']"
+            routerLinkActive="active" #navRunning="routerLinkActive" [ngClass]="navRunning.isActive
+                    ? 'text-red-600 hover:text-red-700'
+                    : 'text-gray-700 hover:text-gray-500'
+                                                      ">
+            <i class="fa fa-check-square-o text-lg leading-lg"></i>
+            <span class="inline-block ml-2">จัดการรายชื่อ</span>
+          </a>
+        </li>
+        
+        <li class="flex items-center">
+          <a class="px-3 py-2 flex items-center text-sm uppercase font-semibold" [routerLink]="['/screen']"
+            routerLinkActive="active" #navScreen="routerLinkActive" [ngClass]="navScreen.isActive
+                    ? 'text-red-600 hover:text-red-700'
+                    : 'text-gray-700 hover:text-gray-500'
+                                                      ">
+            <i class="fa fa-list-alt text-lg leading-lg"></i>
+            <span class="inline-block ml-2">จำนวนการรับ</span>
+          </a>
+        </li>
+
+        <!-- <li class="flex items-center">
+          <button
+            class="bg-red-600 text-white active:bg-red-700 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150"
+            type="button"
+          >
+            <i class="fas fa-arrow-alt-circle-down"></i> Download
+          </button>
+        </li> -->
+      </ul>
+    </div>
+  </div>
+</nav>

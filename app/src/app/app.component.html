@@ -1,0 +1,15 @@
+<div class="font-prompt" *ngIf="!location.path().includes('/screen')">
+    <app-header></app-header>
+    <main>
+        <section class="relative w-full h-full py-20 min-h-screen">
+            <div class="absolute top-0 w-full h-full bg-zinc-50"></div>
+            <router-outlet></router-outlet>
+        </section>
+        <app-footer></app-footer>
+    </main>
+</div>
+<div class="font-prompt" *ngIf="location.path().includes('/screen')">
+    <main>
+        <router-outlet></router-outlet>
+    </main>
+</div>

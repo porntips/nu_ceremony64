@@ -1,0 +1,107 @@
+<div class="relative w-full px-4 ">
+    <div class="lg:grid lg:grid-cols-2 gap-4">
+        <div class="shadow px-4 py-5 bg-white rounded-md col-span-1 w-full">
+            <label
+                class="block text-lg font-semibold text-gray-700 mb-2 text-center">รายชื่อผู้เข้ารับพระราชทานปริญญาบัตร
+                ประจำปีการศึกษา 2564 </label>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg table-wrp block" style="max-height: 80vh;">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead
+                        class="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b sticky top-0">
+                        <tr>
+                            <th scope="col" class="border px-4 py-3 text-center">
+                                กลุ่ม - ลำดับ
+                            </th>
+                            <th scope="col" class="border px-4 py-3 text-center">
+                                ชื่อ
+                            </th>
+                            <th scope="col" class="border px-4 py-3 text-center">
+                                Process
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                            *ngFor="let grad of remain_result ; let i = index">
+                            <td class="border px-4 py-3 whitespace-nowrap dark:text-white text-lg text-center">
+                                {{grad.ceremonygroup}} - {{grad.ceremonysequence}}
+                            </td>
+                            <td class="border px-4 py-3 whitespace-nowrap dark:text-white text-lg">
+                                {{grad.sname}}
+                            </td>
+                            <td class="border px-4 py-3 whitespace-nowrap dark:text-white text-center">
+                                <button type="button"
+                                    class="text-white font-bold uppercase text-xs px-4 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                                    [ngClass]="{'bg-orange-400 active:bg-orange-500': i>0, 'bg-green-500 active:bg-green-600': i==0}"
+                                    [disabled]="i>0"
+                                    (click)="running_grad(grad.studentcode, grad.ceremonygroup)"> <i class="fa fa-check-circle-o text-lg"></i> </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-span-1">
+            <div class="w-full h-min xs:mt-4">
+                <div class="grid grid-cols-2 gap-4 content-center">
+                    <div class="border shadow p-3 bg-white rounded-md">
+                        <label class="text-left text-2xl"> Remain : </label>
+                        <p class="text-center text-6xl text-bold"> {{pack_remain | number:'1.0-0'}}</p>
+        
+                    </div>
+                    <div class="border shadow p-3 bg-white rounded-md">
+                        <label class="text-left text-2xl"> Total sec {{pack}} :</label>
+                        <p class="text-center text-6xl text-bold"> {{pack_total | number:'1.0-0'}}</p>
+        
+                    </div>
+                    <div class="border shadow p-3 bg-white rounded-md">
+                        <label class="text-left text-2xl"> Received : </label>
+                        <p class="text-center text-6xl text-bold"> {{receive_count | number:'1.0-0'}}</p>
+        
+                    </div>
+                    <div class="border shadow p-3 bg-white rounded-md">
+                        <label class="text-left text-2xl"> Total : </label>
+                        <p class="text-center text-6xl text-bold"> {{graduates_count | number:'1.0-0'}}</p>
+        
+                    </div>
+                </div>
+            </div>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg table-wrp block mt-4" style="max-height: 60vh;" *ngIf="receive_count>0">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead
+                        class="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b sticky top-0">
+                        <tr>
+                            <th scope="col" class="border px-4 py-3 text-center">
+                                กลุ่ม - ลำดับ
+                            </th>
+                            <th scope="col" class="border px-4 py-3 text-center">
+                                ชื่อ
+                            </th>
+                            <th scope="col" class="border px-4 py-3 text-center">
+                                Process
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" *ngFor="let rec of receive_result">
+                            <td class="border px-4 py-3 whitespace-nowrap dark:text-white text-lg text-center">
+                                {{rec.ceremonygroup}} - {{rec.ceremonysequence}}
+                            </td>
+                            <td class="border px-4 py-3 whitespace-nowrap dark:text-white text-lg">
+                                {{rec.sname}}
+                            </td>
+                            <td class="border px-4 py-3 whitespace-nowrap dark:text-white text-center">
+                                <button type="button"
+                                    class="bg-orange-400 text-white active:bg-orange-500 font-bold uppercase text-md px-4 py-1 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                                    (click)="return_grad(rec.studentcode, rec.ceremonygroup)"
+                                    > <i class="fa fa-repeat text-md"></i> </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+</div>
+

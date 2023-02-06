@@ -1,0 +1,42 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+/* Scrollbar  */
+::-webkit-scrollbar {
+    scrollbar-width: thin;
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(35, 49, 58, 0.2);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(35, 49, 58, 0.1);
+    box-shadow: inset 0 0 6px rgba(35, 49, 58, 0.3);
+}
+
+.ngx-pagination .current {
+    // background-color: #dc2626 !important;
+    background-color: #fb923c !important;
+    border-radius: 5px !important;
+}
+
+.ngx-pagination :hover {
+    border-radius: 5px !important;
+}
+
+
+.swal2-title {
+    font-family: 'Prompt', sans-serif;
+}
+.swal2-html-container {
+    font-family: 'Prompt', sans-serif;
+    margin-top: 0 !important;
+}
