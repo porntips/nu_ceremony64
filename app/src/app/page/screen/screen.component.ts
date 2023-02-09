@@ -16,22 +16,26 @@ export class ScreenComponent implements OnInit {
   receive_count: number = 0
   grad_total: number = 0
   received: any
-  
+
   constructor(
     public socketService: SocketioService,
     public api: ApiService
-  ) { 
+  ) {
     this.get_all_grad()
   }
 
   ngOnInit(): void {
     this.socketService.getRunning().subscribe((ceremony: any) => {
       console.log(ceremony);
-      this.get_result(ceremony)
+      if (this.grad_total == 0) {
+        this.get_all_grad()
+      } else {
+        this.get_result(ceremony)
+      }
     })
   }
 
-  
+
 
   async get_all_grad() {
     await this.api.getAll("ceremonyall").then((res: any) => {
@@ -46,13 +50,13 @@ export class ScreenComponent implements OnInit {
     this.pack_remain = res.pack_remain
     this.receive_count = res.receive_count
     this.pack_total = res.pack_count
-    
-    if(res.receive_result != undefined){
+
+    if (res.receive_result != undefined) {
       this.received = res.receive_result[0]
-    } else{
+    } else {
       this.received = undefined
-    }  
-    
+    }
+
     if (Number(res.ceremonypack) > Number(this.pack)) {
       this.pack = res.ceremonypack
     }

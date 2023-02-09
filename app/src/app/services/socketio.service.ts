@@ -15,7 +15,7 @@ export class SocketioService {
 
   constructor() {
     // this.socket = io(environment.SOCKET_ENDPOINT, { forceNew: false })
-    this.socket = io("http://localhost:8080")
+    this.socket = io("http://localhost:8080",{ forceNew: false })
   }
 
   public sendRunning(section: string) {

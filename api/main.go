@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	 "nu_ceremony/connected"
+	"nu_ceremony/connected"
 	"nu_ceremony/controller"
 	"os"
 	"strconv"
@@ -13,7 +13,6 @@ import (
 
 	"github.com/gin-contrib/cors"
 	socketio "github.com/googollee/go-socket.io"
-
 )
 
 func GinMiddleware(allowOrigin string) gin.HandlerFunc {
@@ -22,6 +21,7 @@ func GinMiddleware(allowOrigin string) gin.HandlerFunc {
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Accept, Authorization, Content-Type, Content-Length, X-CSRF-Token, Token, session, Origin, Host, Connection, Accept-Encoding, Accept-Language, X-Requested-With")
+		c.Writer.Header().Set("Content-Type", "application/json")
 
 		if c.Request.Method == http.MethodOptions {
 			c.AbortWithStatus(http.StatusNoContent)
@@ -47,7 +47,7 @@ func main() {
 		log.Println("connected:", s.ID())
 
 		s.Join("ceremonyg")
-		
+
 		return nil
 	})
 
@@ -84,12 +84,9 @@ func main() {
 	})
 	router.PUT("/ceremony/:studentcode/:ceremony", controller.RunningCeremony)
 
-	// router.Use(GinMiddleware("http://localhost/index.html"))
 	router.Use(GinMiddleware(fmt.Sprintf("http://%s:4200", os.Getenv("APP_HOST"))))
-
 	router.GET("/socket.io/*any", gin.WrapH(server))
 	router.POST("/socket.io/*any", gin.WrapH(server))
-	router.StaticFS("/public", http.Dir("./"))
 
 	if err := router.Run(":8080"); err != nil {
 		log.Fatal("failed run app: ", err)
