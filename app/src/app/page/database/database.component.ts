@@ -45,6 +45,7 @@ export class DatabaseComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.records = []
   }
 
   uploadListener($event: any): void {
@@ -126,7 +127,7 @@ export class DatabaseComponent implements OnInit {
         confirmButtonText: `ตกลง`,
         showConfirmButton: false,
         timer: 2000
-      }).then((e:any)=>{
+      }).then((e: any) => {
         this.router.navigateByUrl('/running')
       })
     })

@@ -9,13 +9,13 @@
                     <thead
                         class="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b sticky top-0">
                         <tr>
-                            <th scope="col" class="border px-4 py-3 text-center">
+                            <th scope="col" class="border px-4 py-3 whitespace-nowrap text-center max-w-1/4">
                                 กลุ่ม - ลำดับ
                             </th>
-                            <th scope="col" class="border px-4 py-3 text-center">
+                            <th scope="col" class="border px-4 py-3 text-center max-w-2/4">
                                 ชื่อ
                             </th>
-                            <th scope="col" class="border px-4 py-3 text-center">
+                            <th scope="col" class="border px-4 py-3 text-center max-w-1/4">
                                 Process
                             </th>
                         </tr>
@@ -23,15 +23,15 @@
                     <tbody>
                         <tr class="bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                             *ngFor="let grad of remain_result ; let i = index">
-                            <td class="border px-4 py-3 whitespace-nowrap dark:text-white text-lg text-center">
+                            <td class="border p-3 whitespace-nowrap dark:text-white text-lg text-center">
                                 {{grad.ceremonygroup}} - {{grad.ceremonysequence}}
                             </td>
-                            <td class="border px-4 py-3 whitespace-nowrap dark:text-white text-lg">
+                            <td class="border p-3 dark:text-white text-lg  ">
                                 {{grad.sname}}
                             </td>
-                            <td class="border px-4 py-3 whitespace-nowrap dark:text-white text-center">
+                            <td class="border p-3 whitespace-nowrap dark:text-white text-center">
                                 <button type="button"
-                                    class="text-white font-bold uppercase text-xs px-4 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                                    class="h-full w-full text-white font-bold uppercase text-xs px-4 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
                                     [ngClass]="{'bg-orange-400 active:bg-orange-500': i>0, 'bg-green-500 active:bg-green-600': i==0}"
                                     [disabled]="i>0"
                                     (click)="running_grad(grad.studentcode, grad.ceremonygroup)"> <i class="fa fa-check-circle-o text-lg"></i> </button>
@@ -71,13 +71,13 @@
                     <thead
                         class="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b sticky top-0">
                         <tr>
-                            <th scope="col" class="border px-4 py-3 text-center">
+                            <th scope="col" class="border px-4 py-3 text-center max-w-1/4">
                                 กลุ่ม - ลำดับ
                             </th>
-                            <th scope="col" class="border px-4 py-3 text-center">
+                            <th scope="col" class="border px-4 py-3 text-center max-w-2/4">
                                 ชื่อ
                             </th>
-                            <th scope="col" class="border px-4 py-3 text-center">
+                            <th scope="col" class="border px-4 py-3 text-center max-w-1/4">
                                 Process
                             </th>
                         </tr>
@@ -87,12 +87,12 @@
                             <td class="border px-4 py-3 whitespace-nowrap dark:text-white text-lg text-center">
                                 {{rec.ceremonygroup}} - {{rec.ceremonysequence}}
                             </td>
-                            <td class="border px-4 py-3 whitespace-nowrap dark:text-white text-lg">
+                            <td class="border px-4 py-3 dark:text-white text-lg">
                                 {{rec.sname}}
                             </td>
                             <td class="border px-4 py-3 whitespace-nowrap dark:text-white text-center">
                                 <button type="button"
-                                    class="bg-orange-400 text-white active:bg-orange-500 font-bold uppercase text-md px-4 py-1 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                                    class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-md px-4 py-1 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                                     (click)="return_grad(rec.studentcode, rec.ceremonygroup)"
                                     > <i class="fa fa-repeat text-md"></i> </button>
                             </td>

@@ -6,8 +6,8 @@
                 <input type="file" accept=".csv"
                     class="lg:w-5/6 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-400 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-400 dark:focus:border-orange-500 dark:shadow-sm-light"
                     id="txtFileUpload" (change)="uploadListener($event)" required>
-                <button class="lg:w-1/6 bg-orange-400 hover:bg-orange-500 text-white font-semibold py-3 px-4 rounded"
-                    (click)="uploadData()">อัพโหลด</button>
+                <button class="lg:w-1/6 bg-orange-400 hover:bg-orange-500 text-white font-semibold py-3 px-4 rounded disabled:bg-orange-300"
+                    (click)="uploadData()" [disabled]="records.length==0">อัพโหลด</button>
             </div>
         </form>
         <div *ngIf="records.length>0">
