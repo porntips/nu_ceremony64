@@ -38,13 +38,16 @@ export class RunningComponent implements OnInit {
   }
 
   async get_all_grad() {
-    await this.api.getAll("ceremonyall").then((res: any) => {
-      this.graduates_count = res.all_count
-      this.graduates_all = res.all_result
-
+    await this.api.getAll("ceremonyall").then((res: any, rej?: any) => {
+      if (res.status == 200) {
+        this.graduates_count = res.body.all_count
+        this.graduates_all = res.body.all_result
+      }
     })
-    await this.api.getBy("ceremony", this.pack).then((res: any) => {
-      this.get_result(res)
+    await this.api.getBy("ceremony", this.pack).then((res: any, rej?: any) => {
+      if (res.status == 200) {
+        this.get_result(res.body)
+      }
     })
   }
 
@@ -58,17 +61,21 @@ export class RunningComponent implements OnInit {
 
   async running_grad(studentcode: string, group: number) {
     this.pack = group
-    this.api.put('ceremony', studentcode, "true").then((res: any) => {
-      if (res.updated > 0) {
-        this.socketService.sendRunning(this.pack.toString());
+    this.api.put('ceremony', studentcode, "true").then((res: any, rej?: any) => {
+      if (res.status == 200) {
+        if (res.body.updated > 0) {
+          this.socketService.sendRunning(this.pack.toString());
+        }
       }
     })
   }
   async return_grad(studentcode: string, group: number) {
     this.pack = group
-    this.api.put('ceremony', studentcode, "false").then((res: any) => {
-      if (res.updated > 0) {
-        this.socketService.sendRunning(this.pack.toString());
+    this.api.put('ceremony', studentcode, "false").then((res: any, rej?: any) => {
+      if (res.status == 200) {
+        if (res.body.updated > 0) {
+          this.socketService.sendRunning(this.pack.toString());
+        }
       }
     })
   }

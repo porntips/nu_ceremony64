@@ -38,11 +38,15 @@ export class ScreenComponent implements OnInit {
 
 
   async get_all_grad() {
-    await this.api.getAll("ceremonyall").then((res: any) => {
-      this.grad_total = res.all_count
+    await this.api.getAll("ceremonyall").then((res: any,rej?:any) => {
+      if (res.status == 200) {
+        this.grad_total = res.body.all_count
+      }
     })
-    await this.api.getBy("ceremony", this.pack).then((res: any) => {
-      this.get_result(res)
+    await this.api.getBy("ceremony", this.pack).then((res: any,rej?:any) => {
+      if (res.status == 200) {
+        this.get_result(res.body)
+      }
     })
   }
 

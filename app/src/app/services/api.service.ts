@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpClientModule } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -23,7 +23,7 @@ export class ApiService {
 
   async post(path: string, body: any) {
     return new Promise((res, rej) => {
-      this.http.post(this.base_path + path, JSON.stringify(body))
+      this.http.post(this.base_path + path, JSON.stringify(body), { observe: 'response' })
         .subscribe((data: any) => {
           res(data)
         }, (err: any) => {
@@ -34,7 +34,7 @@ export class ApiService {
 
   async put(path: string, studentcode: string, ceremony: string) {
     return new Promise((res, rej) => {
-      this.http.put(`${this.base_path}${path}/${studentcode}/${ceremony}`, null)
+      this.http.put(`${this.base_path}${path}/${studentcode}/${ceremony}`, null, { observe: 'response' })
         .subscribe((data: any) => {
           res(data)
         }, (err: any) => {
@@ -44,7 +44,7 @@ export class ApiService {
   }
   async getAll(path: string) {
     return new Promise((res, rej) => {
-      this.http.get(this.base_path + path)
+      this.http.get(this.base_path + path, { observe: 'response' })
         .subscribe((data: any) => {
           res(data)
         }, (err: any) => {
@@ -52,9 +52,9 @@ export class ApiService {
         });
     });
   }
-  async getBy(path: string, id:any) {
+  async getBy(path: string, id: any) {
     return new Promise((res, rej) => {
-      this.http.get(`${this.base_path}${path}/${id}`)
+      this.http.get(`${this.base_path}${path}/${id}`, { observe: 'response' })
         .subscribe((data: any) => {
           res(data)
         }, (err: any) => {

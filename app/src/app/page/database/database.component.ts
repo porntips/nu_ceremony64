@@ -117,19 +117,21 @@ export class DatabaseComponent implements OnInit {
   }
 
   async uploadData() {
-    await this.api.post("ceremony", this.records).then((res: any) => {
-      this.socketService.sendRunning('1');
+    await this.api.post("ceremony", this.records).then((res: any,rej?:any) => {
+      if (res.status == 200) {
+        this.socketService.sendRunning('1');
 
-      Swal.fire({
-        title: 'อัพโหลดสำเร็จ',
-        text: `${(Number(res.created)).toLocaleString()} รายการ`,
-        icon: 'success',
-        confirmButtonText: `ตกลง`,
-        showConfirmButton: false,
-        timer: 2000
-      }).then((e: any) => {
-        this.router.navigateByUrl('/running')
-      })
+        Swal.fire({
+          title: 'อัพโหลดสำเร็จ',
+          text: `${(Number(res.body.created)).toLocaleString()} รายการ`,
+          icon: 'success',
+          confirmButtonText: `ตกลง`,
+          showConfirmButton: false,
+          timer: 2000
+        }).then((e: any) => {
+          this.router.navigateByUrl('/running')
+        })
+      }
     })
   }
 
