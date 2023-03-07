@@ -1,16 +1,28 @@
 <section class="relative w-full h-full " style="min-height: 90vh;">
-    <div class="lg:grid lg:grid-cols-2 md:grid md:grid-cols-2 gap-4 p-5 content-start">
-        <div class="border shadow p-3 bg-white rounded-md">
-            <label class="text-left text-5xl"> จำนวนคงเหลือ (ช่วงที่ {{pack}}) : </label>
-            <p class="text-center text-bold" style="font-size: 90pt;"> {{pack_remain | number:'1.0-0'}} </p>
-
+    <div class="lg:grid lg:grid-cols-2 md:grid md:grid-cols-2 gap-4 p-5 content-start  md:space-y-0">
+        <div class="space-y-4">
+            <div class="border shadow p-3 bg-white rounded-md">
+                <label class="text-left text-5xl"> จำนวนผู้เข้ารับ (ช่วงที่ {{pack}}) :</label>
+                <p class="text-center text-bold" style="font-size: 90pt;"> {{pack_total | number:'1.0-0'}} </p>
+            </div>
+            <div class="border shadow p-3 bg-white rounded-md">
+                <label class="text-left text-5xl"> จำนวนผู้เข้ารับปริญญาทั้งหมด : </label>
+                <p class="text-center text-bold" style="font-size: 90pt;"> {{grad_total | number:'1.0-0'}} </p>
+            </div>
         </div>
-        <div class="border shadow p-3 bg-white rounded-md">
-            <label class="text-left text-5xl"> จำนวนทั้งหมด (ช่วงที่ {{pack}}) :</label>
-            <p class="text-center text-bold" style="font-size: 90pt;"> {{pack_total | number:'1.0-0'}} </p>
-
+        <div class="space-y-4">
+            <div class="border shadow p-3 bg-white rounded-md">
+                <label class="text-left text-5xl"> จำนวนคงเหลือ (ช่วงที่ {{pack}}) : </label>
+                <p class="text-center text-bold" style="font-size: 90pt;"> {{pack_remain | number:'1.0-0'}} </p>
+            </div>
+            <div class="border shadow p-3 bg-white rounded-md">
+                <label class="text-left text-5xl"> จำนวนผู้เข้ารับแล้ว :</label>
+                <p class="text-center text-bold" style="font-size: 90pt;"> {{receive_count | number:'1.0-0'}} </p>
+            </div>
         </div>
-        <div
+        
+        
+        <!-- <div
             class="border shadow bg-white rounded-md col-span-2 lg:grid lg:grid-cols-2 md:grid md:grid-cols-2 content-start py-5">
             <div class="border-r-2 px-3">
                 <p class="text-left text-5xl"> จำนวนผู้เข้ารับแล้ว : </p>
@@ -21,7 +33,7 @@
                 <p class="text-center text-bold" style="font-size: 60pt;"> {{grad_total | number:'1.0-0'}} </p>
             </div>
 
-        </div>
+        </div> -->
         <!-- name -->
         <!-- <div class="border shadow bg-white rounded-md col-span-2 content-start py-5" *ngIf="received">
             <div class="px-3">
@@ -35,8 +47,8 @@
     </div>
 </section>
 <footer class="py-4">
+    <hr class="mb-4 border-b-1 border-gray-200" />
     <div class="w-full mx-auto px-4 border-b-1 border-gray-200">
-        <hr class="mb-4 border-b-1 border-gray-200" />
         <div class="flex flex-wrap items-center md:justify-between justify-center">
             <div class="w-full md:w-6/12 px-4">
                 <div class="text-sm text-gray-500 font-semibold text-center md:text-left">

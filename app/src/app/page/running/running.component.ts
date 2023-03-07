@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { SocketioService } from 'src/app/services/socketio.service';
+import { Caremony } from 'src/app/models/caremony'
 
 @Component({
   selector: 'app-running',
@@ -14,11 +15,12 @@ export class RunningComponent implements OnInit {
   pack_remain: number = 0
   receive_count: number = 0
   pack_total: number = 0
-  receive_result = [] as any
+  receive_result: Caremony[] = [];
   graduates_count: number = 0
-  graduates_all = [] as any
-  remain_result = [] as any;
+  graduates_all = [] as any;
+  remain_result: Caremony[] = [];
 
+  socket_res: any;
 
   constructor(
     public api: ApiService,
@@ -29,18 +31,17 @@ export class RunningComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.socketService.getRunning().subscribe((ceremony: any) => {
+    this.socket_res = this.socketService.getRunning().subscribe((ceremony: any) => {
       console.log(ceremony);
       this.get_result(ceremony)
     })
   }
 
-
-
   async get_all_grad() {
     await this.api.getAll("ceremonyall").then((res: any) => {
       this.graduates_count = res.all_count
       this.graduates_all = res.all_result
+
     })
     await this.api.getBy("ceremony", this.pack).then((res: any) => {
       this.get_result(res)
@@ -70,5 +71,16 @@ export class RunningComponent implements OnInit {
         this.socketService.sendRunning(this.pack.toString());
       }
     })
+  }
+  async control_pack(action: string) {
+    if (action == 'plus') {
+      this.pack += 1
+    } else {
+      (this.pack) -= 1
+    }
+    this.refresh_data()
+  }
+  async refresh_data() {
+    this.socketService.sendRunning(this.pack.toString());
   }
 }

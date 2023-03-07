@@ -84,7 +84,9 @@ func main() {
 	})
 	router.PUT("/ceremony/:studentcode/:ceremony", controller.RunningCeremony)
 
-	router.Use(GinMiddleware(fmt.Sprintf("http://%s:4200", os.Getenv("APP_HOST"))))
+	router.Use(GinMiddleware(fmt.Sprintf("http://%s:4200", os.Getenv("LOCAL_HOST"))))
+	// router.Use(GinMiddleware(fmt.Sprintf("http://%s:4200", os.Getenv("APP_HOST"))))
+
 	router.GET("/socket.io/*any", gin.WrapH(server))
 	router.POST("/socket.io/*any", gin.WrapH(server))
 

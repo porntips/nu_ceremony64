@@ -57,9 +57,7 @@ export class ScreenComponent implements OnInit {
       this.received = undefined
     }
 
-    if (Number(res.ceremonypack) > Number(this.pack)) {
-      this.pack = res.ceremonypack
-    }
+    this.pack = res.ceremonypack
   }
 
 }

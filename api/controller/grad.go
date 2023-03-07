@@ -58,7 +58,8 @@ func GetAllCeremony(c *gin.Context, pack int) model.ReturnGrad {
 		Pack_remain:  pack_all.Count - pack_receive.Count,
 		Remain_result:  remain.Ceremony,
 		Receive_result:   receive.Ceremony,
-		Receive_count:    receive.Count,
+		// Receive_count:    receive.Count, //ยอดรับแล้วทั้งหมด
+		Receive_count:    pack_receive.Count, //ยอดรับแล้วของแต่ละช่วง
 		Ceremonypack: pack,
 	}
 
