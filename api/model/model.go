@@ -21,12 +21,12 @@ type ReturnCeremony struct {
 }
 
 type ReturnGrad struct {
+	Ceremonypack   int        `json:"ceremonypack"`   //Ceremonygroup
 	Pack_count     int        `json:"pack_count"`     //Group_count
 	Pack_remain    int        `json:"pack_remain"`    //Group_remain
 	Receive_result []Ceremony `json:"receive_result"` //Grad_receive
 	Receive_count  int        `json:"receive_count"`  //Grad_count
 	Remain_result  []Ceremony `json:"remain_result"`  //False_result
-	Ceremonypack   int        `json:"ceremonypack"`   //Ceremonygroup
 }
 
 type Running struct {
