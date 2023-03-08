@@ -63,8 +63,8 @@ func GetAllCeremony(c *gin.Context, pack int) (model.ReturnGrad, error) {
 		Pack_remain:    pack_all.Count - pack_receive.Count,
 		Remain_result:  remain.Ceremony,
 		Receive_result: receive.Ceremony,
-		// Receive_count:    receive.Count, //ยอดรับแล้วทั้งหมด
-		Receive_count: pack_receive.Count, //ยอดรับแล้วของแต่ละช่วง
+		Receive_count:    receive.Count, //ยอดรับแล้วทั้งหมด
+		// Receive_count: pack_receive.Count, //ยอดรับแล้วของแต่ละช่วง
 		Ceremonypack:  pack,
 	}, nil
 }
@@ -249,7 +249,7 @@ func GetReceive() (model.ReturnCeremony, error) {
 		grads []model.Ceremony
 	)
 
-	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremony = true ORDER BY  ceremonypack,ceremonysequence,ceremonysubsequence DESC")
+	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremony = true ORDER BY ceremonypack DESC,ceremonysequence DESC, ceremonysubsequence DESC")
 	if err != nil {
 		return model.ReturnCeremony{}, err
 	}
