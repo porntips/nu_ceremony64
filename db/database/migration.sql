@@ -12,5 +12,5 @@ CREATE TABLE ceremonyDB(
     ceremonypackno int(4),
     ceremonysex varchar(1),
     ceremonyprefix varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_thai_520_w2,
-    ceremony boolean
+    ceremony boolean default false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
