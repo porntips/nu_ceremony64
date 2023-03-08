@@ -19,12 +19,12 @@ func AddDefaultDb(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	query := "INSERT INTO ceremonyDB(studentcode,sname,degreecertificate,facultyname,hornor,ceremonygroup,ceremonysequence,ceremonysubsequence,ceremonydate,ceremonypack,ceremonypackno,ceremonysex,ceremonyprefix) VALUES "
+	query := "INSERT INTO ceremonyDB(studentcode,sname,degreecertificate,facultyname,hornor,ceremonygroup,ceremonysequence,subsequence,ceremonydate,ceremonypack,ceremonypackno,ceremonysex,ceremonyprefix) VALUES "
 	var inserts []string
 	var params []interface{}
 	for _, v := range ceremonyies {
 		inserts = append(inserts, "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
-		params = append(params, v.Studentcode, v.Sname, v.Degreecertificate, v.Facultyname, v.Hornor, v.Ceremonygroup, v.Ceremonysequence, v.Ceremonysubsequence, v.Ceremonydate, v.Ceremonypack, v.Ceremonypackno, v.Ceremonysex, v.Ceremonyprefix)
+		params = append(params, v.Studentcode, v.Sname, v.Degreecertificate, v.Facultyname, v.Hornor, v.Ceremonygroup, v.Ceremonysequence, v.Subsequence, v.Ceremonydate, v.Ceremonypack, v.Ceremonypackno, v.Ceremonysex, v.Ceremonyprefix)
 	}
 
 	queryVals := strings.Join(inserts, ",")

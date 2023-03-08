@@ -59,13 +59,13 @@ func GetAllCeremony(c *gin.Context, pack int) (model.ReturnGrad, error) {
 	}
 
 	return model.ReturnGrad{
-		Pack_count:     pack_all.Count,
-		Pack_remain:    pack_all.Count - pack_receive.Count,
+		Pack_count:     pack_all.Num_of_rows,
+		Pack_remain:    pack_all.Num_of_rows - pack_receive.Num_of_rows,
 		Remain_result:  remain.Ceremony,
 		Receive_result: receive.Ceremony,
-		Receive_count:    receive.Count, //ยอดรับแล้วทั้งหมด
+		Receive_count:  receive.Count, //ยอดรับแล้วทั้งหมด
 		// Receive_count: pack_receive.Count, //ยอดรับแล้วของแต่ละช่วง
-		Ceremonypack:  pack,
+		Ceremonypack: pack,
 	}, nil
 }
 
@@ -106,7 +106,7 @@ func GetAll() (model.ReturnCeremony, error) {
 		grads []model.Ceremony
 	)
 
-	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB ORDER BY ceremonygroup,ceremonysequence,ceremonysubsequence")
+	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB ORDER BY ceremonygroup,ceremonysequence,subsequence")
 	if err != nil {
 		return model.ReturnCeremony{}, fmt.Errorf(fmt.Sprintf("%s %s", err, "when Prepare"))
 	}
@@ -118,7 +118,7 @@ func GetAll() (model.ReturnCeremony, error) {
 	}
 	for theRows.Next() {
 		err := theRows.Scan(&grad.Studentcode, &grad.Sname, &grad.Degreecertificate, &grad.Facultyname, &grad.Hornor, &grad.Ceremonygroup,
-			&grad.Ceremonysequence, &grad.Ceremonysubsequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
+			&grad.Ceremonysequence, &grad.Subsequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
 		grads = append(grads, grad)
 
 		if err != nil {
@@ -136,74 +136,40 @@ func GetAll() (model.ReturnCeremony, error) {
 	}, nil
 }
 
-func GetPack(pack int) (model.ReturnCeremony, error) {
-	var (
-		grad  model.Ceremony
-		grads []model.Ceremony
-	)
+func GetPack(pack int) (model.ReturnCount, error) {
+	var num_of int
 
-	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremonypack = ? ORDER BY ceremonygroup,ceremonysequence,ceremonysubsequence")
+	stmt, err := connected.DB.Prepare(`SELECT COUNT( *) as "num_of_rows" FROM ceremonyDB WHERE ceremonypack = ? ORDER BY ceremonygroup,ceremonysequence,subsequence`)
 	if err != nil {
-		return model.ReturnCeremony{}, err
+		return model.ReturnCount{}, err
 	}
 	defer stmt.Close()
 
-	theRows, err := stmt.Query(pack)
-	if err != nil {
-		return model.ReturnCeremony{}, err
-	}
-	for theRows.Next() {
-		err := theRows.Scan(&grad.Studentcode, &grad.Sname, &grad.Degreecertificate, &grad.Facultyname, &grad.Hornor, &grad.Ceremonygroup,
-			&grad.Ceremonysequence, &grad.Ceremonysubsequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
-		grads = append(grads, grad)
-
-		if err != nil {
-			return model.ReturnCeremony{}, err
-		}
-	}
-	err = theRows.Err()
-	if err != nil {
-		return model.ReturnCeremony{}, err
+	scan_err := stmt.QueryRow(pack).Scan(&num_of)
+	if scan_err != nil {
+		return model.ReturnCount{}, err
 	}
 
-	return model.ReturnCeremony{
-		Ceremony: grads,
-		Count:    len(grads),
+	return model.ReturnCount{
+		Num_of_rows: num_of,
 	}, nil
 }
-func GetPackReceive(pack int) (model.ReturnCeremony, error) {
-	var (
-		grad  model.Ceremony
-		grads []model.Ceremony
-	)
+func GetPackReceive(pack int) (model.ReturnCount, error) {
+	var num_of int
 
-	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremonypack = ? AND ceremony = true ORDER BY ceremonygroup,ceremonysequence,ceremonysubsequence")
+	stmt, err := connected.DB.Prepare(`SELECT COUNT( *) as "num_of_rows" FROM ceremonyDB WHERE ceremonypack = ? AND ceremony = true ORDER BY ceremonygroup,ceremonysequence,subsequence`)
 	if err != nil {
-		return model.ReturnCeremony{}, err
+		return model.ReturnCount{}, err
 	}
 	defer stmt.Close()
 
-	theRows, err := stmt.Query(pack)
-	if err != nil {
-		return model.ReturnCeremony{}, err
-	}
-	for theRows.Next() {
-		err := theRows.Scan(&grad.Studentcode, &grad.Sname, &grad.Degreecertificate, &grad.Facultyname, &grad.Hornor, &grad.Ceremonygroup,
-			&grad.Ceremonysequence, &grad.Ceremonysubsequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
-		grads = append(grads, grad)
-
-		if err != nil {
-			return model.ReturnCeremony{}, err
-		}
-	}
-	err = theRows.Err()
-	if err != nil {
-		return model.ReturnCeremony{}, err
+	scan_err := stmt.QueryRow(pack).Scan(&num_of)
+	if scan_err != nil {
+		return model.ReturnCount{}, err
 	}
 
-	return model.ReturnCeremony{
-		Ceremony: grads,
-		Count:    len(grads),
+	return model.ReturnCount{
+		Num_of_rows: num_of,
 	}, nil
 }
 
@@ -213,7 +179,7 @@ func GetRemain() (model.ReturnCeremony, error) {
 		grads []model.Ceremony
 	)
 
-	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremony = false ORDER BY ceremonygroup,ceremonysequence,ceremonysubsequence LIMIT 20")
+	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremony = false ORDER BY ceremonygroup,ceremonysequence,subsequence LIMIT 20")
 	if err != nil {
 		return model.ReturnCeremony{}, err
 	}
@@ -225,7 +191,7 @@ func GetRemain() (model.ReturnCeremony, error) {
 	}
 	for theRows.Next() {
 		err := theRows.Scan(&grad.Studentcode, &grad.Sname, &grad.Degreecertificate, &grad.Facultyname, &grad.Hornor, &grad.Ceremonygroup,
-			&grad.Ceremonysequence, &grad.Ceremonysubsequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
+			&grad.Ceremonysequence, &grad.Subsequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
 		grads = append(grads, grad)
 
 		if err != nil {
@@ -245,11 +211,23 @@ func GetRemain() (model.ReturnCeremony, error) {
 
 func GetReceive() (model.ReturnCeremony, error) {
 	var (
-		grad  model.Ceremony
-		grads []model.Ceremony
+		grad   model.Ceremony
+		grads  []model.Ceremony
+		num_of int
 	)
 
-	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremony = true ORDER BY ceremonypack DESC,ceremonysequence DESC, ceremonysubsequence DESC")
+	countStmt, conutErr := connected.DB.Prepare(`SELECT COUNT( *) as "num_of_rows" FROM ceremonyDB WHERE ceremony = true ORDER BY ceremonypack DESC,ceremonysequence DESC, subsequence DESC`)
+	if conutErr != nil {
+		return model.ReturnCeremony{}, fmt.Errorf(fmt.Sprintf("%s when count prepare", conutErr))
+	}
+	defer countStmt.Close()
+
+	scan_err := countStmt.QueryRow().Scan(&num_of)
+	if scan_err != nil {
+		return model.ReturnCeremony{}, fmt.Errorf(fmt.Sprintf("%s when count prepare", conutErr))
+	}
+
+	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremony = true ORDER BY ceremonypack DESC,ceremonysequence DESC, subsequence DESC LIMIT 20")
 	if err != nil {
 		return model.ReturnCeremony{}, err
 	}
@@ -262,7 +240,7 @@ func GetReceive() (model.ReturnCeremony, error) {
 
 	for theRows.Next() {
 		err := theRows.Scan(&grad.Studentcode, &grad.Sname, &grad.Degreecertificate, &grad.Facultyname, &grad.Hornor, &grad.Ceremonygroup,
-			&grad.Ceremonysequence, &grad.Ceremonysubsequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
+			&grad.Ceremonysequence, &grad.Subsequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
 		grads = append(grads, grad)
 
 		if err != nil {
@@ -276,6 +254,6 @@ func GetReceive() (model.ReturnCeremony, error) {
 
 	return model.ReturnCeremony{
 		Ceremony: grads,
-		Count:    len(grads),
+		Count:    num_of,
 	}, nil
 }

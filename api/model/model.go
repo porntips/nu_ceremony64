@@ -8,7 +8,7 @@ type Ceremony struct {
 	Hornor              int16  `json:"hornor" binding:"required"`            //
 	Ceremonygroup       int16  `json:"ceremonygroup" binding:"required"`
 	Ceremonysequence    int16  `json:"ceremonysequence" binding:"required"`
-	Ceremonysubsequence int16  `json:"ceremonysubsequence"`
+	Subsequence int16  `json:"subsequence"`
 	Ceremonydate        string `json:"ceremonydate" binding:"required"` //
 	Ceremonypack        int16  `json:"ceremonypack" binding:"required"`
 	Ceremonypackno      int16  `json:"ceremonypackno" binding:"required"` //
@@ -19,6 +19,9 @@ type Ceremony struct {
 type ReturnCeremony struct {
 	Ceremony []Ceremony
 	Count    int
+}
+type ReturnCount struct {
+	Num_of_rows    int
 }
 
 type ReturnGrad struct {

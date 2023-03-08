@@ -6,7 +6,7 @@ CREATE TABLE ceremonyDB(
     hornor int(1),
     ceremonygroup int(2),
     ceremonysequence int(4),
-    ceremonysubsequence int(4),
+    subsequence int(4),
     ceremonydate datetime,
     ceremonypack int(4),
     ceremonypackno int(4),
