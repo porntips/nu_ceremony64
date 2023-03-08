@@ -80,7 +80,7 @@ func main() {
 	router.GET("/ceremony/:group", func(c *gin.Context) {
 		group := c.Param("group")
 		g, _ := strconv.Atoi(group)
-		res,err := controller.GetAllCeremony(c, g)
+		res, err := controller.GetAllCeremony(c, g)
 
 		if err == nil {
 			c.JSON(http.StatusOK, res)
@@ -88,7 +88,7 @@ func main() {
 	})
 	router.PUT("/ceremony/:studentcode/:ceremony", controller.RunningCeremony)
 
-	router.Use(GinMiddleware(fmt.Sprintf("http://%s:4200", os.Getenv("LOCAL_HOST"))))
+	router.Use(GinMiddleware(fmt.Sprintf("http://%s", os.Getenv("LOCAL_HOST"))))
 
 	router.GET("/socket.io/*any", gin.WrapH(server))
 	router.POST("/socket.io/*any", gin.WrapH(server))
