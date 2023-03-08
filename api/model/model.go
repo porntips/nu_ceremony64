@@ -1,19 +1,20 @@
 package model
 
 type Ceremony struct {
-	Studentcode       string `json:"studentcode" binding:"required"`
-	Sname             string `json:"sname" binding:"required"`
-	Degreecertificate string `json:"degreecertificate" binding:"required"` //
-	Facultyname       string `json:"facultyname" binding:"required"` //
-	Hornor            int16  `json:"hornor" binding:"required"` //
-	Ceremonygroup     int16  `json:"ceremonygroup" binding:"required"`
-	Ceremonysequence  int16  `json:"ceremonysequence" binding:"required"`
-	Ceremonydate      string `json:"ceremonydate" binding:"required"` //
-	Ceremonypack      int16  `json:"ceremonypack" binding:"required"`
-	Ceremonypackno    int16  `json:"ceremonypackno" binding:"required"` //
-	Ceremonysex       any    `json:"ceremonysex"` //
-	Ceremonyprefix    any    `json:"ceremonyprefix"` //
-	Ceremony          bool   `json:"ceremony"`
+	Studentcode         string `json:"studentcode" binding:"required"`
+	Sname               string `json:"sname" binding:"required"`
+	Degreecertificate   string `json:"degreecertificate" binding:"required"` //
+	Facultyname         string `json:"facultyname" binding:"required"`       //
+	Hornor              int16  `json:"hornor" binding:"required"`            //
+	Ceremonygroup       int16  `json:"ceremonygroup" binding:"required"`
+	Ceremonysequence    int16  `json:"ceremonysequence" binding:"required"`
+	Ceremonysubsequence int16  `json:"ceremonysubsequence"`
+	Ceremonydate        string `json:"ceremonydate" binding:"required"` //
+	Ceremonypack        int16  `json:"ceremonypack" binding:"required"`
+	Ceremonypackno      int16  `json:"ceremonypackno" binding:"required"` //
+	Ceremonysex         any    `json:"ceremonysex"`                       //
+	Ceremonyprefix      any    `json:"ceremonyprefix"`                    //
+	Ceremony            bool   `json:"ceremony"`
 }
 type ReturnCeremony struct {
 	Ceremony []Ceremony

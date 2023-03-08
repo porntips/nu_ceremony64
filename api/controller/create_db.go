@@ -19,12 +19,12 @@ func AddDefaultDb(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	query := "INSERT INTO ceremonyDB(studentcode,sname,degreecertificate,facultyname,hornor,ceremonygroup,ceremonysequence,ceremonydate,ceremonypack,ceremonypackno,ceremonysex,ceremonyprefix,ceremony) VALUES "
+	query := "INSERT INTO ceremonyDB(studentcode,sname,degreecertificate,facultyname,hornor,ceremonygroup,ceremonysequence,ceremonysubsequence,ceremonydate,ceremonypack,ceremonypackno,ceremonysex,ceremonyprefix,ceremony) VALUES "
 	var inserts []string
 	var params []interface{}
 	for _, v := range ceremonyies {
-		inserts = append(inserts, "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
-		params = append(params, v.Studentcode, v.Sname, v.Degreecertificate, v.Facultyname, v.Hornor, v.Ceremonygroup, v.Ceremonysequence, v.Ceremonydate, v.Ceremonypack, v.Ceremonypackno, v.Ceremonysex, v.Ceremonyprefix, v.Ceremony)
+		inserts = append(inserts, "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+		params = append(params, v.Studentcode, v.Sname, v.Degreecertificate, v.Facultyname, v.Hornor, v.Ceremonygroup, v.Ceremonysequence, v.Ceremonysubsequence, v.Ceremonydate, v.Ceremonypack, v.Ceremonypackno, v.Ceremonysex, v.Ceremonyprefix, v.Ceremony)
 	}
 
 	queryVals := strings.Join(inserts, ",")

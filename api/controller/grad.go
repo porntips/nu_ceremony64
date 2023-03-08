@@ -17,6 +17,7 @@ func GetAllGrad(c *gin.Context) {
 		c.JSON(http.StatusConflict, gin.H{
 			"Error": fmt.Sprintf("%s", err),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
@@ -25,44 +26,47 @@ func GetAllGrad(c *gin.Context) {
 	})
 }
 
-func GetAllCeremony(c *gin.Context, pack int) model.ReturnGrad {
+func GetAllCeremony(c *gin.Context, pack int) (model.ReturnGrad, error) {
 	pack_all, err := GetPack(pack)
 	if err != nil {
 		c.JSON(http.StatusConflict, gin.H{
-			"Error": fmt.Sprintf("%s", err),
+			"Error": fmt.Sprintf("%s when %s", err, "GetPack"),
 		})
+		return model.ReturnGrad{}, fmt.Errorf(fmt.Sprintf("%s when %s", err, "GetPack"))
 	}
 	pack_receive, err := GetPackReceive(pack)
 	if err != nil {
 		c.JSON(http.StatusConflict, gin.H{
-			"Error": fmt.Sprintf("%s", err),
+			"Error": fmt.Sprintf("%s when %s", err, "GetPackReceive"),
 		})
+		return model.ReturnGrad{}, fmt.Errorf(fmt.Sprintf("%s when %s", err, "GetPackReceive"))
 	}
 
 	remain, err := GetRemain()
 	if err != nil {
 		c.JSON(http.StatusConflict, gin.H{
-			"Error": fmt.Sprintf("%s", err),
+			"Error": fmt.Sprintf("%s when %s", err, "GetRemain"),
 		})
+		return model.ReturnGrad{}, fmt.Errorf(fmt.Sprintf("%s when %s", err, "GetRemain"))
 	}
 
 	receive, err := GetReceive()
 	if err != nil {
 		c.JSON(http.StatusConflict, gin.H{
-			"Error": fmt.Sprintf("%s", err),
+			"Error": fmt.Sprintf("%s when %s", err, "GetReceive"),
 		})
+		return model.ReturnGrad{}, fmt.Errorf(fmt.Sprintf("%s when %s", err, "GetReceive"))
 	}
 
 	return model.ReturnGrad{
-		Pack_count:   pack_all.Count,
-		Pack_remain:  pack_all.Count - pack_receive.Count,
+		Pack_count:     pack_all.Count,
+		Pack_remain:    pack_all.Count - pack_receive.Count,
 		Remain_result:  remain.Ceremony,
-		Receive_result:   receive.Ceremony,
+		Receive_result: receive.Ceremony,
 		// Receive_count:    receive.Count, //ยอดรับแล้วทั้งหมด
-		Receive_count:    pack_receive.Count, //ยอดรับแล้วของแต่ละช่วง
-		Ceremonypack: pack,
-	}
-
+		Receive_count: pack_receive.Count, //ยอดรับแล้วของแต่ละช่วง
+		Ceremonypack:  pack,
+	}, nil
 }
 
 func RunningCeremony(c *gin.Context) {
@@ -102,28 +106,28 @@ func GetAll() (model.ReturnCeremony, error) {
 		grads []model.Ceremony
 	)
 
-	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB ORDER BY ceremonygroup,ceremonysequence")
+	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB ORDER BY ceremonygroup,ceremonysequence,ceremonysubsequence")
 	if err != nil {
-		return model.ReturnCeremony{}, err
+		return model.ReturnCeremony{}, fmt.Errorf(fmt.Sprintf("%s %s", err, "when Prepare"))
 	}
 	defer stmt.Close()
 
 	theRows, err := stmt.Query()
 	if err != nil {
-		return model.ReturnCeremony{}, err
+		return model.ReturnCeremony{}, fmt.Errorf(fmt.Sprintf("%s %s", err, "when Query"))
 	}
 	for theRows.Next() {
 		err := theRows.Scan(&grad.Studentcode, &grad.Sname, &grad.Degreecertificate, &grad.Facultyname, &grad.Hornor, &grad.Ceremonygroup,
-			&grad.Ceremonysequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
+			&grad.Ceremonysequence, &grad.Ceremonysubsequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
 		grads = append(grads, grad)
 
 		if err != nil {
-			return model.ReturnCeremony{}, err
+			return model.ReturnCeremony{}, fmt.Errorf(fmt.Sprintf("%s %s", err, "when Scan"))
 		}
 	}
 	err = theRows.Err()
 	if err != nil {
-		return model.ReturnCeremony{}, err
+		return model.ReturnCeremony{}, fmt.Errorf(fmt.Sprintf("%s %s", err, "when theRows"))
 	}
 
 	return model.ReturnCeremony{
@@ -138,7 +142,7 @@ func GetPack(pack int) (model.ReturnCeremony, error) {
 		grads []model.Ceremony
 	)
 
-	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremonypack = ? ORDER BY ceremonygroup,ceremonysequence")
+	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremonypack = ? ORDER BY ceremonygroup,ceremonysequence,ceremonysubsequence")
 	if err != nil {
 		return model.ReturnCeremony{}, err
 	}
@@ -150,7 +154,7 @@ func GetPack(pack int) (model.ReturnCeremony, error) {
 	}
 	for theRows.Next() {
 		err := theRows.Scan(&grad.Studentcode, &grad.Sname, &grad.Degreecertificate, &grad.Facultyname, &grad.Hornor, &grad.Ceremonygroup,
-			&grad.Ceremonysequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
+			&grad.Ceremonysequence, &grad.Ceremonysubsequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
 		grads = append(grads, grad)
 
 		if err != nil {
@@ -173,7 +177,7 @@ func GetPackReceive(pack int) (model.ReturnCeremony, error) {
 		grads []model.Ceremony
 	)
 
-	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremonypack = ? AND ceremony = true ORDER BY ceremonygroup,ceremonysequence")
+	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremonypack = ? AND ceremony = true ORDER BY ceremonygroup,ceremonysequence,ceremonysubsequence")
 	if err != nil {
 		return model.ReturnCeremony{}, err
 	}
@@ -185,7 +189,7 @@ func GetPackReceive(pack int) (model.ReturnCeremony, error) {
 	}
 	for theRows.Next() {
 		err := theRows.Scan(&grad.Studentcode, &grad.Sname, &grad.Degreecertificate, &grad.Facultyname, &grad.Hornor, &grad.Ceremonygroup,
-			&grad.Ceremonysequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
+			&grad.Ceremonysequence, &grad.Ceremonysubsequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
 		grads = append(grads, grad)
 
 		if err != nil {
@@ -209,7 +213,7 @@ func GetRemain() (model.ReturnCeremony, error) {
 		grads []model.Ceremony
 	)
 
-	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremony = false ORDER BY ceremonygroup,ceremonysequence LIMIT 20")
+	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremony = false ORDER BY ceremonygroup,ceremonysequence,ceremonysubsequence LIMIT 20")
 	if err != nil {
 		return model.ReturnCeremony{}, err
 	}
@@ -221,7 +225,7 @@ func GetRemain() (model.ReturnCeremony, error) {
 	}
 	for theRows.Next() {
 		err := theRows.Scan(&grad.Studentcode, &grad.Sname, &grad.Degreecertificate, &grad.Facultyname, &grad.Hornor, &grad.Ceremonygroup,
-			&grad.Ceremonysequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
+			&grad.Ceremonysequence, &grad.Ceremonysubsequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
 		grads = append(grads, grad)
 
 		if err != nil {
@@ -245,7 +249,7 @@ func GetReceive() (model.ReturnCeremony, error) {
 		grads []model.Ceremony
 	)
 
-	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremony = true ORDER BY ceremonysequence DESC")
+	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremony = true ORDER BY  ceremonypack,ceremonysequence,ceremonysubsequence DESC")
 	if err != nil {
 		return model.ReturnCeremony{}, err
 	}
@@ -258,7 +262,7 @@ func GetReceive() (model.ReturnCeremony, error) {
 
 	for theRows.Next() {
 		err := theRows.Scan(&grad.Studentcode, &grad.Sname, &grad.Degreecertificate, &grad.Facultyname, &grad.Hornor, &grad.Ceremonygroup,
-			&grad.Ceremonysequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
+			&grad.Ceremonysequence, &grad.Ceremonysubsequence, &grad.Ceremonydate, &grad.Ceremonypack, &grad.Ceremonypackno, &grad.Ceremonysex, &grad.Ceremonyprefix, &grad.Ceremony)
 		grads = append(grads, grad)
 
 		if err != nil {

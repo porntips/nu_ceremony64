@@ -53,9 +53,11 @@ func main() {
 
 	server.OnEvent("/", "ceremony", func(s socketio.Conn, group string) {
 		g, _ := strconv.Atoi(group)
-		res := controller.GetAllCeremony(&gin.Context{}, g)
+		res, err := controller.GetAllCeremony(&gin.Context{}, g)
 		log.Println("ceremony : ", group)
-		server.BroadcastToRoom("/", "ceremonyg", "graduate", res)
+		if err == nil {
+			server.BroadcastToRoom("/", "ceremonyg", "graduate", res)
+		}
 	})
 
 	server.OnError("/", func(s socketio.Conn, e error) {
@@ -78,14 +80,15 @@ func main() {
 	router.GET("/ceremony/:group", func(c *gin.Context) {
 		group := c.Param("group")
 		g, _ := strconv.Atoi(group)
-		res := controller.GetAllCeremony(c, g)
+		res,err := controller.GetAllCeremony(c, g)
 
-		c.JSON(http.StatusOK, res)
+		if err == nil {
+			c.JSON(http.StatusOK, res)
+		}
 	})
 	router.PUT("/ceremony/:studentcode/:ceremony", controller.RunningCeremony)
 
 	router.Use(GinMiddleware(fmt.Sprintf("http://%s:4200", os.Getenv("LOCAL_HOST"))))
-	// router.Use(GinMiddleware(fmt.Sprintf("http://%s:4200", os.Getenv("APP_HOST"))))
 
 	router.GET("/socket.io/*any", gin.WrapH(server))
 	router.POST("/socket.io/*any", gin.WrapH(server))
