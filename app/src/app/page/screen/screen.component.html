@@ -1,21 +1,21 @@
 <section class="relative w-full h-full " style="min-height: 90vh;">
     <div class="lg:grid lg:grid-cols-2 md:grid md:grid-cols-2 gap-4 p-5 content-start  md:space-y-0">
         <div class="space-y-4">
-            <div class="border shadow p-3 bg-orange-300 rounded-md">
+            <div class="border-0 p-3 bg-orange-400 rounded-md text-white">
                 <label class="text-left text-2xl"> จำนวนผู้เข้ารับ (ช่วงที่ {{pack}}) :</label>
-                <p class="text-center text-bold" style="font-size: 40pt;"> {{pack_total | number:'1.0-0'}} </p>
+                <p class="text-center text-bold" style="font-size: 50pt;"> {{pack_total | number:'1.0-0'}} </p>
             </div>
-            <div class="border shadow p-3 bg-gray-300 rounded-md">
-                <label class="text-left text-5xl"> จำนวนผู้เข้ารับปริญญาทั้งหมด : </label>
-                <p class="text-center text-bold" style="font-size: 40pt;"> {{grad_total | number:'1.0-0'}} </p>
+            <div class="border-0 p-3 bg-stone-400 rounded-md text-white">
+                <label class="text-left text-2xl"> จำนวนผู้เข้ารับปริญญาทั้งหมด : </label>
+                <p class="text-center text-bold" style="font-size: 50pt;"> {{grad_total | number:'1.0-0'}} </p>
             </div>
         </div>
         <div class="space-y-4">
-            <div class="border shadow p-3 bg-orange-200 rounded-md">
+            <div class="border-0 p-3 bg-orange-600 rounded-md text-white">
                 <label class="text-left text-2xl"> จำนวนคงเหลือ (ช่วงที่ {{pack}}) : </label>
-                <p class="text-center text-bold" style="font-size: 40pt;"> {{pack_remain | number:'1.0-0'}} </p>
+                <p class="text-center text-bold" style="font-size: 50pt;"> {{pack_remain | number:'1.0-0'}} </p>
             </div>
-            <div class="border shadow p-3 bg-gray-200 rounded-md">
+            <div class="border-0 p-3 bg-stone-500 rounded-md text-white">
                 <label class="text-left text-2xl"> จำนวนผู้เข้ารับแล้ว :</label>
                 <p class="text-center text-bold" style="font-size: 40pt;"> {{receive_count | number:'1.0-0'}} / {{grad_total | number:'1.0-0'}} </p>
             </div>
