@@ -12,7 +12,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { FooterComponent } from './ui/footer/footer.component';
 import { DatabaseComponent } from './page/database/database.component';
-import { HeaderDropdownComponent } from './components/dropdown/header-dropdown/header-dropdown.component';
 import { RunningComponent } from './page/running/running.component';
 import { ScreenComponent } from './page/screen/screen.component';
 import { LandingComponent } from './page/landing/landing.component';
@@ -24,7 +23,6 @@ import { LandingComponent } from './page/landing/landing.component';
     HeaderComponent,
     FooterComponent,
     DatabaseComponent,
-    HeaderDropdownComponent,
     RunningComponent,
     ScreenComponent,
     LandingComponent,

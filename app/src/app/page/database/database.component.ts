@@ -14,12 +14,12 @@ export class CsvData {
   public hornor: number | undefined
   public ceremonygroup: number | undefined;
   public ceremonysequence: number | undefined;
+  public ceremonysubsequence: number | undefined;
   public ceremonydate: string | undefined;
   public ceremonypack: number | undefined;
   public ceremonypackno: number | undefined;
   public ceremonysex: string | undefined;
   public ceremonyprefix: string | undefined;
-  public ceremony: boolean | undefined;
 }
 
 @Component({
@@ -66,6 +66,8 @@ export class DatabaseComponent implements OnInit {
         let headersRow = this.getHeaderArray(csvRecordsArray);
 
         this.records = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, headersRow.length);
+        console.log(this.records);
+
       };
 
       reader.onerror = function () {
@@ -89,12 +91,12 @@ export class DatabaseComponent implements OnInit {
         csvRecord.hornor = Number(curruntRecord[4].trim());
         csvRecord.ceremonygroup = Number(curruntRecord[5].trim());
         csvRecord.ceremonysequence = Number(curruntRecord[6].trim());
-        csvRecord.ceremonydate = this.convertDate(curruntRecord[7].trim());
-        csvRecord.ceremonypack = Number(curruntRecord[8].trim());
-        csvRecord.ceremonypackno = Number(curruntRecord[9].trim());
-        csvRecord.ceremonysex = curruntRecord[10].trim();
-        csvRecord.ceremonyprefix = curruntRecord[11].trim();
-        csvRecord.ceremony = Boolean(curruntRecord[12].trim());
+        csvRecord.ceremonysubsequence = Number(curruntRecord[7].trim());
+        csvRecord.ceremonydate = this.convertDate(curruntRecord[8].trim());
+        csvRecord.ceremonypack = Number(curruntRecord[9].trim());
+        csvRecord.ceremonypackno = Number(curruntRecord[10].trim());
+        csvRecord.ceremonysex = curruntRecord[11].trim();
+        csvRecord.ceremonyprefix = curruntRecord[12].trim();
 
         csvArr.push(csvRecord);
       }
@@ -117,7 +119,7 @@ export class DatabaseComponent implements OnInit {
   }
 
   async uploadData() {
-    await this.api.post("ceremony", this.records).then((res: any,rej?:any) => {
+    await this.api.post("ceremony", this.records).then((res: any, rej?: any) => {
       if (res.status == 200) {
         this.socketService.sendRunning('1');
 

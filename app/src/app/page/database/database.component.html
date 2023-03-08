@@ -81,7 +81,7 @@
                                 {{record.ceremonygroup}}
                             </td>
                             <td class="border px-6 py-4 whitespace-nowrap dark:text-white">
-                                {{record.ceremonysequence}}
+                                {{record.ceremonysequence}}<span *ngIf="record.ceremonysubsequence>0">/{{record.ceremonysubsequence}}</span>
                             </td>
                             <td class="border px-6 py-4 whitespace-nowrap dark:text-white">
                                 {{record.ceremonydate}}

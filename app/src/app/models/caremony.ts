@@ -6,6 +6,7 @@ export class Caremony {
     public hornor!: number;
     public ceremonygroup!: number;
     public ceremonysequence!: number;
+    public ceremonysubsequence!: number;
     public ceremonydate!: string;
     public ceremonypack!: number;
     public ceremonypackno!: number;
