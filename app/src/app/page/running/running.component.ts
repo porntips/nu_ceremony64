@@ -43,7 +43,9 @@ export class RunningComponent implements OnInit {
       if (res.status == 200) {
         this.graduates_count = res.body.all_count
         this.graduates_all = res.body.all_result
-        this.pack_max = Math.max.apply(Math,res.body.all_result.map(function (o:any) { return (Number(o.ceremonypack)); }));
+        if (res.body.all_result) {
+          this.pack_max = Math.max.apply(Math, res.body.all_result.map(function (o: any) { return (Number(o.ceremonypack)); }));
+        }
       }
     })
     await this.api.getBy("ceremony", this.pack).then((res: any, rej?: any) => {
