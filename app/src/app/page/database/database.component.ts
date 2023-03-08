@@ -14,7 +14,7 @@ export class CsvData {
   public hornor: number | undefined
   public ceremonygroup: number | undefined;
   public ceremonysequence: number | undefined;
-  public ceremonysubsequence: number | undefined;
+  public subsequence: number | undefined;
   public ceremonydate: string | undefined;
   public ceremonypack: number | undefined;
   public ceremonypackno: number | undefined;
@@ -91,7 +91,7 @@ export class DatabaseComponent implements OnInit {
         csvRecord.hornor = Number(curruntRecord[4].trim());
         csvRecord.ceremonygroup = Number(curruntRecord[5].trim());
         csvRecord.ceremonysequence = Number(curruntRecord[6].trim());
-        csvRecord.ceremonysubsequence = Number(curruntRecord[7].trim());
+        csvRecord.subsequence = Number(curruntRecord[7].trim());
         csvRecord.ceremonydate = this.convertDate(curruntRecord[8].trim());
         csvRecord.ceremonypack = Number(curruntRecord[9].trim());
         csvRecord.ceremonypackno = Number(curruntRecord[10].trim());
