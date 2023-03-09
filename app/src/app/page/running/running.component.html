@@ -25,7 +25,7 @@
                             <tr class="bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                 *ngFor="let grad of remain_result ; let i = index">
                                 <td class="border p-3 whitespace-nowrap dark:text-white text-lg text-center">
-                                    {{grad.ceremonygroup}} - {{grad.ceremonysequence}}
+                                    {{grad.ceremonygroup}} - {{grad.ceremonysequence}}<span *ngIf="grad.subsequence>0">({{grad.subsequence}})</span>
                                 </td>
                                 <td class="border p-3 dark:text-white text-lg  ">
                                     {{grad.sname}}
