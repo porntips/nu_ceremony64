@@ -106,7 +106,7 @@ func GetAll() (model.ReturnCeremony, error) {
 		grads []model.Ceremony
 	)
 
-	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB ORDER BY ceremonygroup,ceremonysequence,subsequence")
+	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB ORDER BY ceremonygroup,ceremonysequence,subsequence ASC")
 	if err != nil {
 		return model.ReturnCeremony{}, fmt.Errorf(fmt.Sprintf("%s %s", err, "when Prepare"))
 	}
@@ -179,7 +179,7 @@ func GetRemain() (model.ReturnCeremony, error) {
 		grads []model.Ceremony
 	)
 
-	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremony = false ORDER BY ceremonygroup,ceremonysequence,subsequence LIMIT 20")
+	stmt, err := connected.DB.Prepare("SELECT * FROM ceremonyDB WHERE ceremony = false ORDER BY ceremonygroup ASC,ceremonysequence ASC,subsequence ASC LIMIT 20")
 	if err != nil {
 		return model.ReturnCeremony{}, err
 	}
