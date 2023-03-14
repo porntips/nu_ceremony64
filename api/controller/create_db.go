@@ -19,6 +19,7 @@ func AddDefaultDb(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	DropData()
 	query := "INSERT INTO ceremonyDB(studentcode,sname,degreecertificate,facultyname,hornor,ceremonygroup,ceremonysequence,subsequence,ceremonydate,ceremonypack,ceremonypackno,ceremonysex,ceremonyprefix) VALUES "
 	var inserts []string
 	var params []interface{}
@@ -56,4 +57,25 @@ func AddDefaultDb(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"created": rows,
 	})
+}
+
+func DropData() {
+	query := `DELETE FROM ceremonyDB`
+	stmt, err := connected.DB.Prepare(query)
+	if err != nil {
+		log.Printf("Error %s when prepare", err)
+		return
+	}
+	res, err := stmt.Exec()
+	if err != nil {
+		fmt.Print(err.Error())
+	}
+	defer stmt.Close()
+
+	rows, err := res.RowsAffected()
+	if err != nil {
+		log.Printf("Error %s when finding rows affected", err)
+		return
+	}
+	log.Println("rows affected is", rows)
 }
