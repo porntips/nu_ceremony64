@@ -28,15 +28,15 @@
                                     {{grad.ceremonygroup}} - {{grad.ceremonysequence}}<span *ngIf="grad.subsequence>0">({{grad.subsequence}})</span>
                                 </td>
                                 <td class="border p-3 dark:text-white text-lg  ">
-                                    {{grad.sname}} <br>
-                                    <small class="text-xs">{{grad.facultyname}}</small> 
+                                    {{grad.sname}}
+                                    <p class="text-xs">{{grad.facultyname}}</p> 
                                 </td>
                                 <td class="border p-3 whitespace-nowrap dark:text-white text-center">
                                     <button type="button"
-                                        class="h-full w-full text-white font-bold uppercase text-xs px-4 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                                        class="h-full w-full text-white font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
                                         [ngClass]="{'bg-orange-400 active:bg-orange-500': i>0, 'bg-green-500 active:bg-green-600': i==0}"
                                         (click)="running_grad(grad.studentcode, grad.ceremonypack)"> <i
-                                            class="fa fa-check-circle-o text-lg"></i> </button>
+                                            class="fa fa-check-circle-o text-lg mr-1"></i> Running </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -126,7 +126,7 @@
                                 <button type="button"
                                     class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-md px-4 py-1 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                                     (click)="return_grad(rec.studentcode, rec.ceremonypack)"> <i
-                                        class="fa fa-repeat text-md"></i> </button>
+                                        class="fa fa-repeat text-lg"></i> </button>
                             </td>
                         </tr>
                     </tbody>

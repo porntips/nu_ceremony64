@@ -3,6 +3,8 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+// importing core styling file
+@import "../src/assets/fonts/fontawesome/scss/font-awesome.scss";
 
 /* Scrollbar  */
 ::-webkit-scrollbar {
@@ -39,4 +41,9 @@
 .swal2-html-container {
     font-family: 'Prompt', sans-serif;
     margin-top: 0 !important;
+}
+
+.fa {
+    font-size: 14pt;
+    vertical-align: middle;
 }
