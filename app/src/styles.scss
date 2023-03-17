@@ -6,6 +6,14 @@
 // importing core styling file
 @import "../src/assets/fonts/fontawesome/scss/font-awesome.scss";
 
+@font-face {
+    font-family: prompt;
+    src: url(assets/fonts/Prompt//Prompt-Medium.ttf);
+}
+
+.fonts {
+    font-family: prompt;
+}
 /* Scrollbar  */
 ::-webkit-scrollbar {
     scrollbar-width: thin;
