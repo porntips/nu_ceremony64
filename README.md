@@ -3,6 +3,7 @@
 # .env FILE
 
 ```shell
+DB_HOST = [DB_HOST]
 DB_USER = [DB_USER]
 DB_PASSWORD = [DB_PASSWORD]
 DB_PORT = [DB_PORT]
