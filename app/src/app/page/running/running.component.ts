@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { SocketioService } from 'src/app/services/socketio.service';
 import { Caremony } from 'src/app/models/caremony'
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-running',
@@ -36,6 +37,14 @@ export class RunningComponent implements OnInit {
       console.log(ceremony);
       this.get_result(ceremony)
     })
+
+    $(document).on('keypress', function (e) {
+      if (e.which == 13) {
+        $("#runningBtn").click();
+      } else if (e.which == 32) {
+        $("#deleteBtn").click();
+      }
+    });
   }
 
   async get_all_grad() {
@@ -93,5 +102,12 @@ export class RunningComponent implements OnInit {
   }
   async refresh_data() {
     this.socketService.sendRunning(this.pack.toString());
+  }
+
+
+
+  demo_test() {
+    console.log(5678);
+
   }
 }
