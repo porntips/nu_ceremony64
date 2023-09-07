@@ -38,11 +38,11 @@ export class RunningComponent implements OnInit {
       this.get_result(ceremony)
     })
 
-    $(document).on('keypress', function (e) {
-      if (e.which == 13) {
-        $("#runningBtn").click();
-      } else if (e.which == 32) {
-        $("#deleteBtn").click();
+    $(document).on('keypress', (e) => {
+      if (e.key == "Enter") {
+        $("#runningBtn").trigger('click');
+      } else if (e.key == "-") {
+        $("#deleteBtn").trigger('click');
       }
     });
   }
@@ -104,10 +104,4 @@ export class RunningComponent implements OnInit {
     this.socketService.sendRunning(this.pack.toString());
   }
 
-
-
-  demo_test() {
-    console.log(5678);
-
-  }
 }
